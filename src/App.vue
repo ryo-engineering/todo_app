@@ -1,28 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header />
+    <div class="sortConditions">
+      <label for="sort">ソート条件</label>
+      <select @change="changeOrder" id="sort" v-model="sortKey">
+        <option value></option>
+        <option value="priority">優先度でソート</option>
+        <option value="processType">ステータスでソート</option>
+      </select>
+    </div>
+    <div class="mainContent">
+      <Todo />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header";
+import Todo from "@/components/Todo";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Header,
+    Todo,
+  },
+  data() {
+    return {
+      sortKey: "",
+    };
+  },
+  methods: {
+    changeOrder() {
+      if (this.sortKey) {
+        this.$store.commit("Todo/todoSort", this.sortKey);
+      }
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "assets/style.css";
 </style>
